@@ -4,11 +4,21 @@
   <!-- projectに紐付くtaskがあるだけループする -->
   <% @project.tasks.each do |task| %>
   <li>
+    <!-- 進捗管理チェックボックス -->
+    <!-- idやvalueは不要なのでオプションはブランク -->
+    <!-- task.doneがチェックの有無を意味する(ture,false) -->
+    <!-- taskのIDとprojectのIDを属性として保持させて使えるようにする -->
+    <%= check_box_tag '','', task.done, { 'data-id' => task.id, 'data-project_id' => task.project_id } %>
     <!-- taskのtitleを表示 -->
     <%= task.title %>
   </li>
+    <!-- taskのtitleを表示 -->
+    <%= task.title %>
+    <!-- 削除リンク（taskのプロジェクトIDとtaskIDを取得) -->
+    <%= link_to "[Delete]", project_task_path(task.project_id, task.id), method: :delete, data: { confirm: "are you sure" } %>
+  </li>
   <% end %>
-  
+
   <!-- 新規タスク登録フォーム -->
   <li>
     <%= form_for [@project, @project.tasks.build] do |f| %>
@@ -17,3 +27,12 @@
     <% end %>
   </li>
 </ul>
+
+<!-- jqueryの機能を使ってチェックボックスの制御を行う -->
+<script type="text/javascript">
+  $(function() {
+    $("input[type=checkbox]").click(function() {
+        $.post('/projects/'+$(this).data('project_id')+'/tasks/'+$(this).data('id')+'/toggle')
+    })
+  })
+</script>
