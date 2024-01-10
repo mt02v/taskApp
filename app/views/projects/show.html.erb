@@ -1,0 +1,19 @@
+<h1><%= @project.title %></h1>
+
+<ul>
+  <!-- projectに紐付くtaskがあるだけループする -->
+  <% @project.tasks.each do |task| %>
+  <li>
+    <!-- taskのtitleを表示 -->
+    <%= task.title %>
+  </li>
+  <% end %>
+  
+  <!-- 新規タスク登録フォーム -->
+  <li>
+    <%= form_for [@project, @project.tasks.build] do |f| %>
+    <%= f.text_field :title %>
+    <%= f.submit %>
+    <% end %>
+  </li>
+</ul>

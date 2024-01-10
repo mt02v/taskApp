@@ -1,0 +1,17 @@
+<h1>Add New</h1>
+<%= form_for @project do |f| %>
+<p>
+  <%= f.label :title %><br>
+  <%= f.text_field :title %><br>
+  <!-- エラーチェック-->
+  <% if @project.errors.any? %>
+  <!-- エラー情報の取得-->
+  <%= @project.errors.inspect %>
+  <% end %>
+</p>
+
+<p>
+  <%= f.submit %><br>
+</p>
+
+<% end %>
